@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by alshevchuk on 01.03.2015.
@@ -22,7 +23,7 @@ public class SessionHelper {
 
         //store session id to DB
         String updateQuery = SQLQueries.addNewSessionID.replace("{0}", sessionIDString)
-                                                        .replace("{1}", expDate);
+                .replace("{1}", expDate);
         SQLQueriesExecution.executeVoidQuery(updateQuery);
     }
 
@@ -33,5 +34,12 @@ public class SessionHelper {
         DateFormat dateFormat = new SimpleDateFormat(Constants.sessionDatePattern);
         String stringDate = dateFormat.format(date);
         return stringDate;
+    }
+
+    public static void removeSessionByRequest(String sessionID) {
+        Map<String, String> sessionsMap = SessionsHandler.getSessionsMap();
+        sessionsMap.remove(sessionID);
+        Map<String, String> expiredSessionsMap = SessionsHandler.getExpiredSessionsMap();
+        expiredSessionsMap.put(sessionID, "");
     }
 }

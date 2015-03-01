@@ -17,8 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SessionsHandler implements Runnable {
     private static volatile ConcurrentHashMap<String, String> sessionsMap = new ConcurrentHashMap();
+    private static volatile ConcurrentHashMap<String, String> expiredSessionsMap = new ConcurrentHashMap();
 
-    private volatile ConcurrentHashMap<String, String> expiredSessionsMap = new ConcurrentHashMap();
     @Override
     public void run() {
         boolean isInterrupted = Thread.currentThread().isInterrupted();
@@ -47,8 +47,7 @@ public class SessionsHandler implements Runnable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             closeStatement(statement);
             closeResultSet(rs);
         }
@@ -74,9 +73,13 @@ public class SessionsHandler implements Runnable {
         Iterator<String> expiredSessionsIter = expiredSessionsMap.keySet().iterator();
         while (expiredSessionsIter.hasNext()) {
             String expiredSession = expiredSessionsIter.next();
-            String query = SQLQueries.removeInactiveSessionID.replace("{0}", expiredSession);
-            SQLQueriesExecution.executeVoidQuery(query);
+            removeSessionFromDB(expiredSession);
         }
+    }
+
+    public void removeSessionFromDB(String expiredSession) {
+        String query = SQLQueries.removeInactiveSessionID.replace("{0}", expiredSession);
+        SQLQueriesExecution.executeVoidQuery(query);
     }
 
     private void populateExpiredSessionsMap() {
@@ -96,5 +99,9 @@ public class SessionsHandler implements Runnable {
 
     public static ConcurrentHashMap<String, String> getSessionsMap() {
         return sessionsMap;
+    }
+
+    public static ConcurrentHashMap<String, String> getExpiredSessionsMap() {
+        return expiredSessionsMap;
     }
 }

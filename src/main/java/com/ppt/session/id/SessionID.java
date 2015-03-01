@@ -1,7 +1,7 @@
 package com.ppt.session.id;
 
+import com.ppt.user.User;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.Date;
 
@@ -29,8 +29,7 @@ public class SessionID {
 
     private void createSessionID() {
         StringBuffer sb = new StringBuffer();
-        sb.append(login).append(new Date()).append(password).append(System.currentTimeMillis());
-        sessionID = DigestUtils.md5Hex(sb.toString());
+        sessionID = User.createUniqID(login, password);
 
         sb.append(new Date()).append(System.currentTimeMillis()).append((System.currentTimeMillis() * new Date().getTime()));
         sessionID += Base64.encodeBase64String(sb.toString().getBytes());

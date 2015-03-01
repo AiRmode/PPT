@@ -44,6 +44,24 @@ public class SQLQueriesExecution {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return new Tuple(statement,rs);
+        return new Tuple(statement, rs);
+    }
+
+    public static void closeStatementAndResultSet(Statement statement, ResultSet rs) {
+        try {
+            if (rs != null && rs.isClosed()) {
+                rs.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if (statement != null && statement.isClosed()) {
+                statement.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
