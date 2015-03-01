@@ -26,11 +26,6 @@ public class SQLiteJDBC {
         Class.forName(dbClass);
         connection = DriverManager.getConnection(dbPath);
         connection.setAutoCommit(true);
-        DatabaseMetaData dm = connection.getMetaData();
-        ResultSet rs = dm.getTables(null, null, null, new String[]{"TABLE"});
-        while (rs != null && rs.next()) {
-            String tableName = rs.getString("TABLE_NAME");
-        }
     }
 
     public static SQLiteJDBC getInstance() {

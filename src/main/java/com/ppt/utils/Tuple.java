@@ -12,7 +12,7 @@ public class Tuple<K, V> {
         this.v = v;
     }
 
-    public K getK(){
+    public K getK() {
         return k;
     }
 
