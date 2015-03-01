@@ -34,9 +34,6 @@ public class SessionID {
 
         sb.append(new Date()).append(System.currentTimeMillis()).append((System.currentTimeMillis() * new Date().getTime()));
         sessionID += Base64.encodeBase64String(sb.toString().getBytes());
-
-        System.out.println("Login: " + login + "Psw: " + password);
-        System.out.println("Session ID: " + sessionID);
     }
 
     public String getSessionID() {

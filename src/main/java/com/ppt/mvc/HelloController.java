@@ -1,5 +1,7 @@
 package com.ppt.mvc;
 
+import com.ppt.Configurator;
+import com.ppt.session.SessionHelper;
 import com.ppt.session.id.SessionID;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,17 +18,22 @@ import java.util.Date;
 @Controller
 @RequestMapping("/")
 public class HelloController {
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
+    static {
+        Configurator configurator = new Configurator();
+    }
+
+
+    @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.HEAD})
     public String printWelcome(ModelMap model) {
-        model.addAttribute("message", "Hello world!" + new Date());
+        model.addAttribute("message", "Hello world! " + new Date());
         new SessionID("alexey", "shevch");
         return "hello";
     }
 
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.HEAD})
-    public String login(@RequestParam String login, @RequestParam String password, ModelMap model) {
+    @RequestMapping(value = "/auth", method = {RequestMethod.GET, RequestMethod.HEAD})
+    public String login(@RequestParam("login") String login, @RequestParam("password") String password, ModelMap model) {
         model.addAttribute("message", "Hello world!" + new Date());
-        SessionID sessionID = new SessionID("alexey", "shevch");
+        SessionHelper.createAndStoreSessionToDB(login, password);
         return "hello";
     }
 }
