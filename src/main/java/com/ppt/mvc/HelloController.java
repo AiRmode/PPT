@@ -3,7 +3,6 @@ package com.ppt.mvc;
 import com.ppt.Configurator;
 import com.ppt.session.SessionHelper;
 import com.ppt.session.Validator;
-import com.ppt.session.id.SessionID;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +18,14 @@ import java.util.Date;
 @Controller
 @RequestMapping("/")
 public class HelloController {
+
     static {
         Configurator configurator = new Configurator();
     }
 
-
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.HEAD})
     public String printWelcome(ModelMap model) {
         model.addAttribute("message", "Hello world! " + new Date());
-        new SessionID("alexey", "shevch");
         return "hello";
     }
 
