@@ -16,9 +16,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by alshevchuk on 26.02.2015.
  */
 public class SessionsHandler implements Runnable {
-    private volatile ConcurrentHashMap<String, String> sessionsMap = new ConcurrentHashMap();
-    private volatile ConcurrentHashMap<String, String> expiredSessionsMap = new ConcurrentHashMap();
+    private static volatile ConcurrentHashMap<String, String> sessionsMap = new ConcurrentHashMap();
 
+    private volatile ConcurrentHashMap<String, String> expiredSessionsMap = new ConcurrentHashMap();
     @Override
     public void run() {
         boolean isInterrupted = Thread.currentThread().isInterrupted();
@@ -92,5 +92,9 @@ public class SessionsHandler implements Runnable {
             }
 
         }
+    }
+
+    public static ConcurrentHashMap<String, String> getSessionsMap() {
+        return sessionsMap;
     }
 }

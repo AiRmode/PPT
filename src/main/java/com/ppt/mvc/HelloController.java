@@ -2,6 +2,7 @@ package com.ppt.mvc;
 
 import com.ppt.Configurator;
 import com.ppt.session.SessionHelper;
+import com.ppt.session.Validator;
 import com.ppt.session.id.SessionID;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,10 +31,18 @@ public class HelloController {
         return "hello";
     }
 
-    @RequestMapping(value = "/auth", method = {RequestMethod.GET, RequestMethod.HEAD})
-    public String login(@RequestParam("login") String login, @RequestParam("password") String password, ModelMap model) {
-        model.addAttribute("message", "Hello world!" + new Date());
+    @RequestMapping(value = "/getSession", method = {RequestMethod.GET, RequestMethod.HEAD})
+    public String getSessionID(@RequestParam("login") String login, @RequestParam("password") String password, ModelMap model) {
+        model.addAttribute("message", "Hello world! " + new Date());
         SessionHelper.createAndStoreSessionToDB(login, password);
+        return "hello";
+    }
+
+    @RequestMapping(value = "/doAction1", method = {RequestMethod.GET, RequestMethod.HEAD})
+    public String doAction1(@RequestParam("sessionID") String sessionID, ModelMap model) {
+        boolean isSessionValid = Validator.isSessionIDValid(sessionID);
+        model.addAttribute("message", "Hello world! Session Valid!</br>" + isSessionValid + "</br>" + new Date());
+
         return "hello";
     }
 }

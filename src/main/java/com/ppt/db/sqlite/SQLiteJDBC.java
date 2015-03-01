@@ -11,7 +11,6 @@ public class SQLiteJDBC {
     private final String dbPath = "jdbc:sqlite:C:\\ashevchuk_git\\my_git\\ppt\\DB\\test_sqlite\\test1.db";
     private final String dbClass = "org.sqlite.JDBC";
 
-    //TODO: is synchronised required?
     public Connection getConnection() throws SQLException, ClassNotFoundException {
         if (connection == null || connection.isClosed()) {
             initConnection();
