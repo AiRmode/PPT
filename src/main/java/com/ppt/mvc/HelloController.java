@@ -37,10 +37,10 @@ public class HelloController {
         User user = new User(login, password);
         boolean isUserExists = UserValidator.isUserExists(user);
         if (isUserExists) {
-            model.addAttribute("message", "Hello world! User is already existed!</br>" + "</br>" + new Date());
+            model.addAttribute("message", "User is already existed!</br>" + "</br>" + new Date());
         } else {
             UserHelper.createUser(login, password);
-            model.addAttribute("message", "Hello world! User was successfully created!</br>" + "</br>" + new Date());
+            model.addAttribute("message", "User was successfully created!</br>" + "</br>" + new Date());
         }
 
         return "hello";
@@ -63,9 +63,9 @@ public class HelloController {
     public String doAction1(@RequestParam("sessionID") String sessionID, ModelMap model) {
         boolean isSessionValid = Validator.isSessionIDValid(sessionID);
         if (isSessionValid)
-            model.addAttribute("message", "Hello world! Session Valid!</br>" + isSessionValid + "</br>" + new Date());
+            model.addAttribute("message", "Action1!</br>" + isSessionValid + "</br>" + new Date());
         else
-            model.addAttribute("message", "Hello world! Session INVALID!</br>" + isSessionValid + "</br>" + new Date());
+            model.addAttribute("message", "(doAction1): Session INVALID!</br>" + isSessionValid + "</br>" + new Date());
 
         return "hello";
     }
